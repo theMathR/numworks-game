@@ -54,7 +54,7 @@ namespace Screen {
 
 namespace Display {
 
-static inline void pushRect(Rect rect, const Color * pixels) {
+static inline void pushRect(Rect rect, const uint16_t * pixels) {
   eadk_display_push_rect(rect, reinterpret_cast<const eadk_color_t *>(pixels));
 }
 
@@ -63,6 +63,14 @@ static inline void pushRectUniform(Rect rect, Color color) {
 }
 static inline void drawString(const char * text, Point point, bool largeFont, Color textColor, Color backgroundColor) {
   eadk_display_draw_string(text, point, largeFont, textColor, backgroundColor);
+}
+
+static inline void pullRect(Rect rect, uint16_t * pixels) {
+  eadk_display_pull_rect(rect, pixels);
+}
+
+static inline bool waitForVBlank() {
+  return eadk_display_wait_for_vblank();
 }
 
 }
@@ -141,6 +149,10 @@ namespace Timing {
 
 static inline void msleep(uint32_t ms) {
   return eadk_timing_msleep(ms);
+}
+
+static inline uint64_t time() {
+  return eadk_timing_millis();
 }
 
 }
